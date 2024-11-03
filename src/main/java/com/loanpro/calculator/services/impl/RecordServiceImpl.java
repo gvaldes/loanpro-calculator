@@ -5,10 +5,10 @@ import com.loanpro.calculator.entities.Record;
 import com.loanpro.calculator.entities.User;
 import com.loanpro.calculator.repositories.RecordRepository;
 import com.loanpro.calculator.services.RecordService;
+import com.loanpro.calculator.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,14 +16,11 @@ import java.util.List;
 @Service
 public class RecordServiceImpl implements RecordService {
     private final RecordRepository recordRepository;
+    private final UserService userService;
 
-    public RecordServiceImpl(RecordRepository recordRepository) {
+    public RecordServiceImpl(RecordRepository recordRepository, UserService userService) {
         this.recordRepository = recordRepository;
-    }
-
-    @Override
-    public Record createRecord(Record record) {
-        return recordRepository.save(record);
+        this.userService = userService;
     }
 
     @Override
@@ -37,13 +34,33 @@ public class RecordServiceImpl implements RecordService {
         record.setUserBalance(user.getBalance());
         record.setOperationResponse(result.toString());
         record.setOperands(Arrays.toString(operands));
-        record.setDate(LocalDateTime.now());
 
         return recordRepository.save(record);
     }
 
     @Override
+    public Record createRecord(User user, Operation operation, String result) {
+        log.info("Creating record for user: {}, operation: {}, result: {}", user, operation, result);
+        Record record = new Record();
+        record.setUser(user);
+        record.setOperation(operation);
+        record.setAmount(operation.getCost());
+        record.setUserBalance(user.getBalance());
+        record.setOperationResponse(result);
+
+        return recordRepository.save(record);
+    }
+
+
+    @Override
     public List<Record> getRecordsByUser(Long userId) {
+        log.info("Getting records by user: {}", userId);
+
+        User user = userService.getUserById(userId);
+        if (user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+
         return recordRepository.findAllByUserId(userId);
     }
 }

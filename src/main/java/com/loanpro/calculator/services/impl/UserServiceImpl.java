@@ -27,4 +27,11 @@ public class UserServiceImpl implements UserService {
         log.info("Updating user: {}", user);
         return userRepository.save(user);
     }
+
+    @Override
+    public void reduceBalance(User user, Double amount) {
+        log.info("Reducing balance for user: {}, amount: {}", user, amount);
+        user.setBalance(user.getBalance() - amount);
+        userRepository.save(user);
+    }
 }

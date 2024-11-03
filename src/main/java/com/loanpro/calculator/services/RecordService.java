@@ -7,7 +7,7 @@ import com.loanpro.calculator.entities.User;
 import java.util.List;
 
 public interface RecordService {
-    Record createRecord(Record record);
     Record createRecord(User user, Operation operation, Double result, Double... operands);
+    Record createRecord(User user, Operation operation, String result);
     List<Record> getRecordsByUser(Long userId);
 }

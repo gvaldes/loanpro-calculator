@@ -57,10 +57,9 @@ public class OperationServiceImpl implements OperationService {
                 throw new IllegalArgumentException("Invalid operation type");
         }
 
+        userService.reduceBalance(user, operation.getCost());
         recordService.createRecord(user, operation, result, request.getOperands());
 
-        user.setBalance(user.getBalance() - operation.getCost());
-        userService.updateUser(user);
 
         return result;
     }
@@ -141,8 +140,16 @@ public class OperationServiceImpl implements OperationService {
 
         validateOperationRequest(user, operation, request);
 
-        return randomConnector.generateRandomString();
-    }
+        String randomString = randomConnector.generateRandomString();
 
+        if(randomString == null) {
+            throw new RuntimeException("Failed to generate random string");
+        }
+
+        userService.reduceBalance(user, operation.getCost());
+        recordService.createRecord(user, operation, randomString);
+
+        return randomString;
+    }
 
 }

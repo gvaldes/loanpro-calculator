@@ -7,7 +7,7 @@ import org.springframework.web.client.RestClient;
 public class RandomConnector {
 
     // Create constant for the URL
-    private static final String RANDOM_URL = "https://www.random.org/strings/?";
+    private static final String RANDOM_URL = "https://www.random.org/strings/";
 
     private RestClient restClient;
 
@@ -18,10 +18,10 @@ public class RandomConnector {
     public String generateRandomString() {
         // Call the HTTP service to generate a random string
         //TODO - Implement the logic to receive parameters from the user
-        String params = "?num=1&len=8&digits=on&upperalpha=on&loweralpha=on&unique=on&format=html&rnd=new";
+        String params = "?num=1&len=15&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new";
 
         String result = restClient.get()
-                .uri(RANDOM_URL + "{}", params)
+                .uri(RANDOM_URL + params)
                 .retrieve()
                 .body(String.class);
 

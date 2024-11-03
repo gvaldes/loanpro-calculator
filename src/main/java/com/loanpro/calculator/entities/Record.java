@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @ToString
+@EntityListeners(AuditingEntityListener.class)
 public class Record {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +25,8 @@ public class Record {
     private Double amount;
     private Double userBalance;
     private String operationResponse;
-    private LocalDateTime date;
+    @CreatedDate
+    private LocalDateTime createdDate;
     private boolean deleted;
     private String operands;
 }
