@@ -66,10 +66,7 @@ public class OperationServiceImplTest {
         // Assert
         assertEquals(6D, result);
         verify(recordService, times(1)).createRecord(user, operation, 6D, operands);
-        verify(userService, times(1)).updateUser(userCaptor.capture());
-
-        User updatedUser = userCaptor.getValue();
-        assertEquals(90D, updatedUser.getBalance());
+        verify(userService, times(1)).reduceBalance(user, 10D);
     }
 
     @Test
@@ -99,10 +96,8 @@ public class OperationServiceImplTest {
         // Assert
         assertEquals(-6D, result);
         verify(recordService, times(1)).createRecord(user, operation, -6D, operands);
-        verify(userService, times(1)).updateUser(userCaptor.capture());
+        verify(userService, times(1)).reduceBalance(user, 10D);
 
-        User updatedUser = userCaptor.getValue();
-        assertEquals(90D, updatedUser.getBalance());
     }
 
     @Test
