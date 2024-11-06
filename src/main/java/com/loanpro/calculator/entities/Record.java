@@ -28,5 +28,5 @@ public class Record {
     @CreatedDate
     private LocalDateTime createdDate;
     private boolean deleted;
-    private String operands;
+    private String numbers;
 }

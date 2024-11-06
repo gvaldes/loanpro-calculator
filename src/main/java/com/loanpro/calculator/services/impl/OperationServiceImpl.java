@@ -42,23 +42,23 @@ public class OperationServiceImpl implements OperationService {
 
         switch (request.getType()) {
             case ADDITION:
-                result = add(request.getOperands());
+                result = add(request.getNumbers());
                 break;
             case SUBSTRACTION:
-                result = subtract(request.getOperands());
+                result = subtract(request.getNumbers());
                 break;
             case MULTIPLICATION:
-                result = multiply(request.getOperands());
+                result = multiply(request.getNumbers());
                 break;
             case DIVISION:
-                result = divide(request.getOperands());
+                result = divide(request.getNumbers());
                 break;
             default:
                 throw new IllegalArgumentException("Invalid operation type");
         }
 
         userService.reduceBalance(user, operation.getCost());
-        recordService.createRecord(user, operation, result, request.getOperands());
+        recordService.createRecord(user, operation, result, request.getNumbers());
 
 
         return result;
@@ -114,7 +114,16 @@ public class OperationServiceImpl implements OperationService {
     }
 
     private Double subtract(Double... operands) {
-        return Arrays.stream(operands).reduce(0.0, (a, b) -> a - b);
+        System.out.println("Subtracting: " + Arrays.toString(operands));
+        Double result = 0D;
+        for (int i = 0; i < operands.length; i++) {
+            if (i == 0) {
+                result = operands[i];
+            } else {
+                result -= operands[i];
+            }
+        }
+        return result;
     }
 
     private Double multiply(Double... operands) {
@@ -142,7 +151,7 @@ public class OperationServiceImpl implements OperationService {
 
         String randomString = randomConnector.generateRandomString();
 
-        if(randomString == null) {
+        if (randomString == null) {
             throw new RuntimeException("Failed to generate random string");
         }
 

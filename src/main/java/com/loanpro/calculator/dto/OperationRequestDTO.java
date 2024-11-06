@@ -11,5 +11,5 @@ import lombok.ToString;
 public class OperationRequestDTO {
     private Long userId;
     private OperationType type;
-    private Double[] operands;
+    private Double[] numbers;
 }

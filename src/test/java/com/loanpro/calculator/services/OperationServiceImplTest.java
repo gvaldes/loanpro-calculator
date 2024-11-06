@@ -47,7 +47,7 @@ public class OperationServiceImplTest {
         OperationRequestDTO request = new OperationRequestDTO();
         request.setUserId(1L);
         request.setType(OperationType.ADDITION);
-        request.setOperands(operands);
+        request.setNumbers(operands);
 
         User user = new User();
         user.setId(1L);
@@ -80,7 +80,7 @@ public class OperationServiceImplTest {
         OperationRequestDTO request = new OperationRequestDTO();
         request.setUserId(1L);
         request.setType(OperationType.ADDITION);
-        request.setOperands(operands);
+        request.setNumbers(operands);
 
         User user = new User();
         user.setId(1L);
@@ -111,7 +111,7 @@ public class OperationServiceImplTest {
         OperationRequestDTO request = new OperationRequestDTO();
         request.setUserId(1L);
         request.setType(OperationType.ADDITION);
-        request.setOperands(new Double[]{1D, 2D, 3D});
+        request.setNumbers(new Double[]{1D, 2D, 3D});
 
         when(userService.getUserById(1L)).thenReturn(null);
 
@@ -129,7 +129,7 @@ public class OperationServiceImplTest {
         OperationRequestDTO request = new OperationRequestDTO();
         request.setUserId(1L);
         request.setType(OperationType.ADDITION);
-        request.setOperands(new Double[]{1D, 2D, 3D});
+        request.setNumbers(new Double[]{1D, 2D, 3D});
 
         User user = new User();
         user.setId(1L);
@@ -152,7 +152,7 @@ public class OperationServiceImplTest {
         OperationRequestDTO request = new OperationRequestDTO();
         request.setUserId(1L);
         request.setType(OperationType.ADDITION);
-        request.setOperands(new Double[]{1D, 2D, 3D});
+        request.setNumbers(new Double[]{1D, 2D, 3D});
 
         User user = new User();
         user.setId(1L);

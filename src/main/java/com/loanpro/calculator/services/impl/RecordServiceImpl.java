@@ -33,7 +33,7 @@ public class RecordServiceImpl implements RecordService {
         record.setAmount(operation.getCost());
         record.setUserBalance(user.getBalance());
         record.setOperationResponse(result.toString());
-        record.setOperands(Arrays.toString(operands));
+        record.setNumbers(Arrays.toString(operands));
 
         return recordRepository.save(record);
     }
