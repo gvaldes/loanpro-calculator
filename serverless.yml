@@ -1,0 +1,26 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: gabriellabs
+service: lambda-calculator
+
+provider:
+  name: aws
+  runtime: java17
+  stage: dev
+  region: us-west-2
+
+package:
+  artifact: target/calculator-0.0.1-SNAPSHOT.jar
+
+functions:
+  app:
+    handler: com.loanpro.calculator.handlers.LambdaHandler::handleRequest
+    events:
+      - http:
+          path: /
+          method: any
+      - http:
+          path: /{proxy+}
+          method: any
+
+plugins:
+  - serverless-plugin-warmup
