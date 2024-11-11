@@ -1,4 +1,4 @@
-# Readme
+# loanpro-calculator
 
 This repository contains the API code for a Simple Calculator. The API is build with Spring Boot and Java 17. MySQL is used as the database. The API is deployed in AWS Lambda with Serverless framework.
 
