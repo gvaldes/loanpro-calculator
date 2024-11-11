@@ -13,3 +13,7 @@ This repository contains the API code for a Simple Calculator. The API is build 
 4. Update the `application.properties` file with your MySQL database credentials.
 5. Run the project. The API will be available at `http://localhost:8080`
 6. Happy coding!
+
+## Deployment
+1. Run `mvn clean package` to build the project
+2. Run `serverless deploy` to deploy the API to AWS Lambda
