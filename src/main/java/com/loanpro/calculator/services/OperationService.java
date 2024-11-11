@@ -8,7 +8,5 @@ public interface OperationService {
     Double performOperation(OperationRequestDTO request);
     Operation createOperation(Operation operation);
     Operation getOperationByType(OperationType type);
-    Operation updateOperation(Operation operation);
-    void deleteOperation(Long id);
     String generateRandomString(OperationRequestDTO request);
 }

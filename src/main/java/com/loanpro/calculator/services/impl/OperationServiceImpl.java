@@ -60,7 +60,6 @@ public class OperationServiceImpl implements OperationService {
         userService.reduceBalance(user, operation.getCost());
         recordService.createRecord(user, operation, result, request.getNumbers());
 
-
         return result;
     }
 
@@ -92,23 +91,6 @@ public class OperationServiceImpl implements OperationService {
         return operationRepository.save(operation);
     }
 
-    @Override
-    public Operation updateOperation(Operation operation) {
-        return null;
-    }
-
-    @Override
-    public void deleteOperation(Long id) {
-        log.info("Deleting operation: {}", id);
-        Operation operation = operationRepository.findById(id).orElse(null);
-
-        if (operation != null) {
-            operation.setDeleted(true);
-            operationRepository.save(operation);
-        }
-
-    }
-
     private Double add(Double... operands) {
         return Arrays.stream(operands).reduce(0.0, Double::sum);
     }
@@ -131,7 +113,10 @@ public class OperationServiceImpl implements OperationService {
     }
 
     private Double divide(Double... operands) {
-        return Arrays.stream(operands).reduce(1.0, (a, b) -> a / b);
+        if (operands.length >= 2){
+            return operands[0] / operands[1];
+        }
+        return operands[0];
     }
 
     @Override

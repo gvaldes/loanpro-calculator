@@ -1,5 +1,6 @@
 package com.loanpro.calculator.services.impl;
 
+import com.loanpro.calculator.dto.RecordDTO;
 import com.loanpro.calculator.entities.Operation;
 import com.loanpro.calculator.entities.Record;
 import com.loanpro.calculator.entities.User;
@@ -7,10 +8,12 @@ import com.loanpro.calculator.repositories.RecordRepository;
 import com.loanpro.calculator.services.RecordService;
 import com.loanpro.calculator.services.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -53,7 +56,7 @@ public class RecordServiceImpl implements RecordService {
 
 
     @Override
-    public List<Record> getRecordsByUser(Long userId) {
+    public Page<RecordDTO> findAllByUserId(Long userId, Pageable pageable){
         log.info("Getting records by user: {}", userId);
 
         User user = userService.getUserById(userId);
@@ -61,6 +64,17 @@ public class RecordServiceImpl implements RecordService {
             throw new IllegalArgumentException("User not found");
         }
 
-        return recordRepository.findAllByUserId(userId);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        return recordRepository.findAllByUserId(userId, pageable).map(record -> {
+            RecordDTO recordDTO = new RecordDTO();
+            recordDTO.setId(String.valueOf(record.getId()));
+            recordDTO.setOperation(String.valueOf(record.getOperation().getType()));
+            recordDTO.setCost(String.valueOf(record.getOperation().getCost()));
+            recordDTO.setResult(record.getOperationResponse());
+            recordDTO.setCreatedDate(record.getCreatedDate().format(formatter));
+            recordDTO.setBalance(String.valueOf(record.getUserBalance()));
+            return recordDTO;
+        });
     }
 }

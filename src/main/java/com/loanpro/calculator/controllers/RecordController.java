@@ -1,13 +1,13 @@
 package com.loanpro.calculator.controllers;
 
-import com.loanpro.calculator.entities.Record;
+import com.loanpro.calculator.dto.RecordDTO;
 import com.loanpro.calculator.services.RecordService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Tag(name="Record", description = "Record APIs")
 @RestController
@@ -19,10 +19,16 @@ public class RecordController {
         this.recordService = recordService;
     }
 
-    @io.swagger.v3.oas.annotations.Operation(summary = "Get all records by user", description = "Get all records by user")
     @GetMapping("/{userId}")
-    public ResponseEntity<List<Record>> getRecordsByUser(@PathVariable Long userId) {
-        List<Record> records = recordService.getRecordsByUser(userId);
-        return new ResponseEntity<>(records, HttpStatus.OK);
+    public Page<RecordDTO> getAllProducts(
+            @PathVariable Long userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "true") boolean ascending
+    ) {
+        Sort sort = ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return recordService.findAllByUserId(userId,pageable);
     }
 }

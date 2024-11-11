@@ -21,13 +21,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-
-    @Override
-    public User updateUser(User user) {
-        log.info("Updating user: {}", user);
-        return userRepository.save(user);
-    }
-
     @Override
     public void reduceBalance(User user, Double amount) {
         log.info("Reducing balance for user: {}, amount: {}", user, amount);

@@ -13,14 +13,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class LambdaHandler implements RequestStreamHandler {
-
     private static SpringBootLambdaContainerHandler<AwsProxyRequest, AwsProxyResponse> handler;
-
     static {
         try {
             handler = SpringBootLambdaContainerHandler.getAwsProxyHandler(CalculatorApplication.class);
         } catch (ContainerInitializationException e) {
-            // if we fail here. We re-throw the exception to force another cold start
             e.printStackTrace();
             throw new RuntimeException("Could not initialize Spring Boot application", e);
         }
